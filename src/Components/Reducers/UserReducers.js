@@ -5,6 +5,7 @@ export const UserLoginReducer = (state = { User: {} }, action) => {
   switch (action.type) {
     case "USER_LOGIN_ATTEMPT": /////////login attempt
     case "USER_LOAD_ATTEMPT":
+    case "USER_REGISTER_ATTEMPT":
       return {
         ...state,
         LogginError: false,
@@ -12,6 +13,7 @@ export const UserLoginReducer = (state = { User: {} }, action) => {
         loading: true,
       }
     case "USER_LOGIN_SUCCESS": /////////login success
+    case "USER_REGISTER_SUCCESS":
       return {
         ...state,
         loading: false,
@@ -19,6 +21,7 @@ export const UserLoginReducer = (state = { User: {} }, action) => {
         User: action.payload
       }
     case "USER_LOGIN_FAILED": /////////login failed
+    case "USER_REGISTER_FAILED":
       return {
         ...state,
         loading: false,
@@ -37,7 +40,7 @@ export const UserLoginReducer = (state = { User: {} }, action) => {
     case "USER_LOAD_FAILED":
       return {
         ...state,
-        error: action.payload,
+        // error: action.payload,
         loading: false,
       }
 
@@ -61,40 +64,40 @@ export const UserLoginReducer = (state = { User: {} }, action) => {
   }
 }
 
-export const UserRegisterReducer = (state = { User: {} }, action) => {
+// export const UserRegisterReducer = (state = { User: {} }, action) => {
 
-  switch (action.type) {
-    case "USER_REGISTER_ATTEMPT":
-      return {
-        ...state,
-        loading: true,
-        isAuthenticated: false,
-      }
-    case "USER_REGISTER_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        User: action.payload
-      }
-    case "USER_REGISTER_FAILED":
+//   switch (action.type) {
+//     case "USER_REGISTER_ATTEMPT":
+//       return {
+//         ...state,
+//         loading: true,
+//         isAuthenticated: false,
+//       }
+//     case "USER_REGISTER_SUCCESS":
+//       return {
+//         ...state,
+//         loading: false,
+//         isAuthenticated: true,
+//         User: action.payload
+//       }
+//     case "USER_REGISTER_FAILED":
 
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: false,
-        error: action.payload,
-        User: null,
-      }
-    case "CLEAR_ERROR":
-      return {
-        ...state,
-        error: null
-      }
-    default:
-      return state
-  }
-}
+//       return {
+//         ...state,
+//         loading: false,
+//         isAuthenticated: false,
+//         error: action.payload,
+//         User: null,
+//       }
+//     case "CLEAR_ERROR":
+//       return {
+//         ...state,
+//         error: null
+//       }
+//     default:
+//       return state
+//   }
+// }
 
 
 export const UserProfileUpdateReducer = (state = {}, action) => {
@@ -134,7 +137,6 @@ export const UserProfileUpdateReducer = (state = {}, action) => {
       return state
   }
 }
-
 
 
 export const ChangePassReducer = (state = {}, action) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { useNavigate } from "react-router-dom";
-import { RegisterAction } from '../Actions/UserActions';
+import { clearError, RegisterAction } from '../Actions/UserActions';
 
 import { useDispatch, useSelector } from 'react-redux';
 var FormData = require('form-data');
@@ -11,19 +11,32 @@ const Register = () => {
   const alert = useAlert()
   const navigate = useNavigate()
 
-  
-  const RegisterAuth= useSelector(state=> state.UserRegisterReducer)
+
+  const { User, error, loading, isAuthenticated } = useSelector(state => state.UserLoginReducer)
   const dispatch = useDispatch()
   const [Data, setData] = useState({ name: '', email: '', password: '' })
   const [Preview, setPreview] = useState()
 
-  useEffect(()=>{
-     RegisterAuth && RegisterAuth.isAuthenticated && navigate('/')
-  },[RegisterAuth])
+  
+
+  useEffect(() => {
+
+    if (error) {
+      // console.log(error);
+      alert.error(error)
+      dispatch(clearError())
+    }
+    if (isAuthenticated) {
+      navigate('/')
+    }
+
+  }, [error, dispatch, isAuthenticated, User, navigate])
+
+
+
 
   ///////////////HANDLE CHANGE///////////////////////////
   const handleChange = (e) => {
-
 
     if (e.target.name === 'Preview') {
 
@@ -34,30 +47,43 @@ const Register = () => {
       reader.onloadend = () => {
         setPreview(reader.result)
       }
-
     } else {
       setData({ ...Data, [e.target.name]: e.target.value })
     }
   }
 
-  /////////////////////////////////////////
+
+  //SUBMIT REGISTRATION
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    try {
+    // try {
 
       const formData = new FormData()
       formData.append('name', Data.name)
       formData.append('email', Data.email)
       formData.append('password', Data.password)
       formData.append('avatar', Preview)
+
       dispatch(RegisterAction(formData))
-      alert.success('User Registered Successfully')
-      navigate('/')
-     } catch (error) {
-      console.log(error);
-    }
+
+    //   if (error) {
+    //     alert.error(error)
+    //     dispatch(clearError())
+    //     return
+    //   }
+
+    //   alert.success('User Registered Successfully')
+    //   // navigate('/')
+
+    // } catch (error) {
+    //   // alert.error(error)
+    //   console.log(error);
+    // }
+
   }
+
+
 
   return (
     <div className="container container-fluid">
@@ -99,6 +125,8 @@ const Register = () => {
             <div className='form-group'>
               <label htmlFor='avatar_upload'>avatar</label>
               <div className='d-flex align-items-center'>
+
+                {/* avatar preview */}
                 <div>
                   <figure className='avatar mr-3 item-rtl'>
                     {
@@ -111,6 +139,7 @@ const Register = () => {
 
                   </figure>
                 </div>
+
                 <div className='custom-file'>
                   <input
                     name='Preview'
@@ -131,12 +160,12 @@ const Register = () => {
             </div>
 
             <button
-              disabled={ RegisterAuth && RegisterAuth.loading? true:false}
+              disabled={loading ? true : false}
               id="register_button"
               type="submit"
               className="btn btn-block py-3"
             >
-              { RegisterAuth && RegisterAuth.loading? "LOADING":"REGISTER"}
+              {loading ? "LOADING" : "REGISTER"}
             </button>
           </form>
 

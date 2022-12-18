@@ -11,14 +11,13 @@ const PrivateLogin = () => {
   const Alert = useAlert()
   const navigate = useNavigate()
   const { User } = useSelector(state => state.UserLoginReducer)
-  const navigateback = () => {
 
-     return <Navigate to='/' />
+  const navigateback = () => {
+    return <Navigate to='/' />
   }
 
 
   return (
-
     User && User.isAuthenticated ? navigateback() : <Outlet />
   )
 }

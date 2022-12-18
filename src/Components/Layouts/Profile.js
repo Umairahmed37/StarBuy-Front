@@ -6,11 +6,11 @@ const Profile = () => {
 
 
   const dispatch = useDispatch()
-  let { User,loading } = useSelector(state => state.UserLoginReducer)
+  let { User, loading } = useSelector(state => state.UserLoginReducer)
   let { isUpdated } = useSelector(state => state.UpdateProfile)
 
 
- 
+
 
   return (
 
@@ -21,9 +21,11 @@ const Profile = () => {
           <figure className='avatar avatar-profile'>
             <img className="rounded-circle img-fluid" src={User.name && User.avatar.url} alt='' />
           </figure>
+
           <Link to="/me/update" id="edit_profile" className="btn btn-primary btn-block my-5">
             Edit Profile
           </Link>
+
         </div>
 
         <div className="col-12 col-md-5">
@@ -38,15 +40,16 @@ const Profile = () => {
 
 
           {
-            User.role === "admin" && <a href="#" className="btn btn-danger btn-block mt-5">
+            User.role === "admin" && <Link to="/Orders/me" className="btn btn-danger btn-block mt-5">
               My Orders
-            </a>
+            </Link>
           }
 
 
           <Link to='/Password/update' className="btn btn-primary btn-block mt-3">
             Change Password
           </Link>
+
         </div>
       </div>
     </div>

@@ -33,14 +33,12 @@ const UpdateProfile = () => {
 
       Alert.success("Updated Successfully")
       dispatch(loadUser())
-      // console.log(isUpdated);
-      navigate('/me')
+       navigate('/me')
 
       dispatch({
         type:"USER_UPDATE_RESET"
       })
-      // console.log(isUpdated);
-    }
+     }
   }, [isUpdated])
 
 

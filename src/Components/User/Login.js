@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { clearError } from '../Actions/UserActions'
 import { LoginAction } from '../Actions/UserActions'
 import MetaData from '../Layouts/MetaData'
-
-
-
 
 
 const Login = () => {
@@ -15,24 +13,31 @@ const Login = () => {
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { isAuthenticated,LogginError } = useSelector(state => state.UserLoginReducer)
+  const { isAuthenticated, error, loading } = useSelector(state => state.UserLoginReducer)
 
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
 
 
   useEffect(() => {
-    if (isAuthenticated) {
-      alert.success("Logged In Successfully")
-      navigate('/')
-    }
-  }, [isAuthenticated])
 
-  useEffect(() => {
-    if (LogginError) {
-      alert.error("Invalid Login Credentials")
+    if (error) {
+      alert.error(error);
+      dispatch(clearError())
     }
-  }, [LogginError])
+
+    if (isAuthenticated) {
+      navigate('/')
+      alert.success("Logged in Successfully")
+    }
+
+  }, [isAuthenticated, error])
+
+  // useEffect(() => {
+  //   if (LogginError) {
+  //     alert.error("Invalid Login Credentials")
+  //   }
+  // }, [LogginError])
 
 
 
@@ -40,10 +45,12 @@ const Login = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
 
-    if(!email || !password) {
+    if (!email || !password) {
       return alert.error("Please Fill All Fields")
     }
     dispatch(LoginAction(email, password))
+    // navigate('/')
+    // alert.success('Logged In Successfully')
     // setemail('')
     // setpassword('')
   }
@@ -62,6 +69,7 @@ const Login = () => {
               <div className="form-group">
                 <label htmlFor="email_field">Email</label>
                 <input
+                  autoComplete='none'
                   type="email"
                   name="email"
                   id="email_field"
@@ -74,6 +82,7 @@ const Login = () => {
               <div className="form-group">
                 <label htmlFor="password_field">Password</label>
                 <input
+                  autoComplete='none'
                   type="password"
                   name="password"
                   id="password_field"
@@ -88,9 +97,13 @@ const Login = () => {
               <button
                 id="login_button"
                 type="submit"
+                disabled={loading && 1}
                 className="btn btn-block py-3"
               >
-                LOGIN
+                {
+                  loading ? "Loading" : "Login"
+                }
+
               </button>
 
               <Link to='/register' className="float-right mt-3">New User?</Link>

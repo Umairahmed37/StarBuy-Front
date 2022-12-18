@@ -9,10 +9,12 @@ import Spinner from '../Utils/Spinner'
 import { useState } from 'react'
 import { Link } from "react-router-dom"
 import { AddToCartAction } from '../Actions/CartActions'
+import { useAlert } from 'react-alert'
 
 
 const ProductDetails = () => {
 
+  const alert = useAlert()
   const dispatch = useDispatch()
   const { id } = useParams()
 
@@ -21,24 +23,26 @@ const ProductDetails = () => {
   }, [])
 
   const [Quantity, setQuantity] = useState(1)
-  const { product, loading, error } = useSelector(state => state.productDetails)
-
+  const { product, loading } = useSelector(state => state.productDetails)
+ 
 
   const decQuantity = () => {
     const myvalue = document.querySelector('.count')
-    if(myvalue.valueAsNumber<=1) return
-    setQuantity(Quantity-1)
+    if (myvalue.valueAsNumber <= 1) return
+    setQuantity(Quantity - 1)
   }
 
   const incQuantity = () => {
     const myvalue = document.querySelector('.count')
-    if(myvalue.valueAsNumber>=product.stock) return
-    setQuantity(Quantity+1)
-   }
+    if (myvalue.valueAsNumber >= product.stock) return
+    setQuantity(Quantity + 1)
+  }
 
-   const AddToCart = () => {
-    dispatch(AddToCartAction(product,Quantity))
-   }
+  const AddToCart = () => {
+    dispatch(AddToCartAction(product, Quantity))
+    alert.success('Cart Updated')
+  }
+
 
 
   return (

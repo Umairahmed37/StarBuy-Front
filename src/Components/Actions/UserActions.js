@@ -1,11 +1,10 @@
 import axios from "axios"
-import { useAlert } from "react-alert"
 
 
 export const LoginAction = (email, password) => async (dispatch) => {
-  
+
   try {
-    
+
     dispatch({ type: "USER_LOGIN_ATTEMPT" })
 
     const { data } = await axios.post("/api/v1/login", { email, password })
@@ -16,38 +15,40 @@ export const LoginAction = (email, password) => async (dispatch) => {
     })
 
   } catch (error) {
-     dispatch({
+    dispatch({
       type: "USER_LOGIN_FAILED",
-      payload: error
+      payload: error.response.data.message
     })
   }
 
   // dispatch({
   //   type: "CLEAR_ERROR"
-    
+
   // })
 
 }
-
 
 export const RegisterAction = (UserData) => async (dispatch) => {
 
   try {
     dispatch({ type: "USER_REGISTER_ATTEMPT" })
-    const User = await axios.post('/api/v1/register', UserData)
+
+    console.log(UserData);
+
+    const {data} = await axios.post('/api/v1/register', UserData)
     dispatch({
       type: "USER_REGISTER_SUCCESS",
-      payload: User
+      payload: data.user
     })
 
   } catch (error) {
+    console.log(error.response.data.message);
     dispatch({
       type: "USER_REGISTER_FAILED",
-      payload: error
+      payload: error.response.data.message
     })
   }
 }
-
 
 export const loadUser = () => async (dispatch) => {
 
@@ -55,7 +56,7 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: "USER_LOAD_ATTEMPT" })
     let User = await axios.get('/api/v1/me')
     User = User.data.user
-     dispatch({
+    dispatch({
       type: "USER_LOAD_SUCCESS",
       payload: User
     })
@@ -85,13 +86,12 @@ export const Logout = () => async (dispatch) => {
   }
 }
 
-
 export const ProfileUpdate = (Updated) => async (dispatch) => {
 
   try {
     dispatch({ type: "USER_UPDATE_ATTEMPT" })
     const User = await axios.put('/api/v1/me/update', Updated)
-     dispatch({
+    dispatch({
       type: "USER_UPDATE_SUCCESS",
       payload: User.data.success
     })
@@ -108,8 +108,8 @@ export const ChangePassword = (passwords) => async (dispatch) => {
 
   try {
     dispatch({ type: "CHANGE_PASS_ATTEMPT" })
-    let message = await axios.put('/api/v1/password/update',passwords)
-     dispatch({
+    let message = await axios.put('/api/v1/password/update', passwords)
+    dispatch({
       type: "CHANGE_PASS_SUCCESS",
       payload: message
     })
@@ -126,8 +126,8 @@ export const ForgotPasswordAction = (email) => async (dispatch) => {
 
   try {
     dispatch({ type: "FORGOT_PASS_ATTEMPT" })
-    let message = await axios.post('/api/v1/password/forgot',email)
-     dispatch({
+    let message = await axios.post('/api/v1/password/forgot', email)
+    dispatch({
       type: "FORGOT_PASS_SUCCESS",
       payload: message
     })
@@ -144,8 +144,8 @@ export const ResetPassword = (passwords) => async (dispatch) => {
 
   try {
     dispatch({ type: "RESET_PASS_ATTEMPT" })
-    let message = await axios.post('/api/v1/password/forgot',passwords)
-     dispatch({
+    let message = await axios.post('/api/v1/password/forgot', passwords)
+    dispatch({
       type: "RESET_PASS_SUCCESS",
       payload: message.success
     })
@@ -159,9 +159,9 @@ export const ResetPassword = (passwords) => async (dispatch) => {
 }
 
 export const NewPassword = (token, passwords) => async (dispatch) => {
-  
+
   try {
-    
+
     dispatch({ type: "NEW_PASSWORD_ATTEMPT" })
 
     const { data } = await axios.put(`/api/v1/password/reset/${token}`, passwords)
@@ -172,7 +172,7 @@ export const NewPassword = (token, passwords) => async (dispatch) => {
     })
 
   } catch (error) {
-     dispatch({
+    dispatch({
       type: "NEW_PASSWORD_FAILED",
       payload: error
     })
@@ -182,19 +182,6 @@ export const NewPassword = (token, passwords) => async (dispatch) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const clearError = () => async (dispatch) => {
-  dispatch({ type: 'CLEAR_ERRORS' })
+  dispatch({ type: 'CLEAR_ERROR' })
 }

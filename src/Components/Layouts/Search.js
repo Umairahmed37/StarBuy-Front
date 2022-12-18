@@ -6,16 +6,15 @@ const Search = () => {
   const [keyword, setkeyword] = useState('')
   const Navigate = useNavigate()
 
-  const keypressed = (e) => {
-    console.log(e.target.value);
-    e.preventDefault();
+  // const keypressed = (e) => {
+  //    e.preventDefault();
 
-    if (keyword.trim()) {
-      Navigate(`/search/${keyword}`)
-    } else {
-      Navigate('/')
-    }
-  }
+  //   if (keyword.trim()) {
+  //     Navigate(`/search/${keyword}`)
+  //   } else {
+  //     Navigate('/')
+  //   }
+  // }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -36,7 +35,7 @@ const Search = () => {
           className="form-control"
           placeholder="Enter Product Name ..."
           onChange={(e) => setkeyword(e.target.value)}
-          onKeyUp={keypressed}
+          // onKeyUp={keypressed}
         />
         <div className="input-group-append">
           <button type='submit' id="search_btn" className="btn">

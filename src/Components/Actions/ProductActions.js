@@ -1,6 +1,6 @@
 import axios from 'axios'
-import ErrorHandler from '../Utils/errorhandler'
-import { useAlert } from 'react-alert'
+// import ErrorHandler from '../Utils/errorhandler'
+// import { useAlert } from 'react-alert'
 
 export const getProducts = (keyword = '', currentPage = 1, Price, Category, Rating = 0) => async (dispatch) => {
 
@@ -9,17 +9,17 @@ export const getProducts = (keyword = '', currentPage = 1, Price, Category, Rati
     let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${Price[1]}&price[gte]=${Price[0]}&rating[gte]=${Rating}`;
 
     if (Category) {
-      link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${Price[1]}&price[gte]=${Price[0]}&categories=${Category}&rating[gte]=${Rating}`;
+      link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${Price[1]}&price[gte]=${Price[0]}&category=${Category}&rating[gte]=${Rating}`;
     }
-
+ 
     const { data } = await axios.get(link)
     dispatch({ type: 'ALL_PRODUCTS_SUCCESS', payload: data })
   }
 
   catch (error) {
-    dispatch({
+     dispatch({
       type: 'ALL_PRODUCT_FAIL',
-      paylaod: error.response.data.message
+      payload: error.response.data.message
     })
   }
 }

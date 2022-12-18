@@ -103,8 +103,11 @@ nav {
 }
 
 .card-img-top {
-  width: 200px;
-  height: 150px;
+  display: flex;
+  justify-content: center;
+   height: 180px;
+   max-width: -webkit-fill-available;
+   width: fit-content;
 }
 
 .ratings {
@@ -657,4 +660,10 @@ ul.CTAs a {
    margin-bottom:20px;
    font-weight:bold;
 
+}
+
+
+
+.filterspinner{
+  margin: 0px auto;
 }

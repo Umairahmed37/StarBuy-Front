@@ -45,7 +45,7 @@ const ProductItem = ({ product ,col }) => {
                 </span>
               </div>
               <h6>{product.categories}</h6>
-              <p className="card-text">{product.price}$/-</p>
+              <p className="card-text">${product.price}</p>
               <Link to={`/Product/${product._id}`} id="view_btn" className="btn btn-block">View Details</Link>
             </div>
           </div>
